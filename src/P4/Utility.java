@@ -16,6 +16,8 @@ public class Utility {
 
     public static Inventory global_inventory = new Inventory();
 
+    public static int global_funds_in_cents = 0;
+
     public static String convert_cents_for_display(int cents) {
 
         String cents_string;
@@ -52,5 +54,24 @@ public class Utility {
 
             global_employee_array[employee_index] = new Employee(scanned_user_values[0], scanned_user_values[1], scanned_user_values[2]);
         }
+        in.close();
+    }
+
+    public static void initialize_register_from_file() throws IOException {
+
+        BufferedReader in = new BufferedReader(new FileReader(new File("funds.txt")));
+
+        global_funds_in_cents = new Integer(in.readLine());
+
+        in.close();
+    }
+
+    public static void save_register_to_file() throws IOException {
+
+        BufferedWriter out = new BufferedWriter(new FileWriter(new File("funds.txt")));
+
+        out.write(global_funds_in_cents);
+
+        out.close();
     }
 }

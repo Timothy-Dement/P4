@@ -7,9 +7,10 @@ package P4;
 public class Item {
 
     private String item_name;
-    private int item_price_in_cents;
-    private int item_cost_in_cents;
-    private int item_quantity;
+
+    private int item_price_in_cents,
+            item_cost_in_cents,
+            item_quantity;
 
     public Item() {
         this.item_name = "EMPTY";

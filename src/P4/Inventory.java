@@ -126,7 +126,7 @@ public class Inventory {
             for (int item_index = 0; item_index < 5; item_index++) {
 
                 if (items_to_order[category_index][item_index] > 0) {
-                    
+
                     this.category_array[category_index].get_item_array()[item_index].increment_item_quantity(items_to_order[category_index][item_index]);
 
                     total_order_amount += this.category_array[category_index].get_item_array()[item_index].get_item_cost_in_cents();

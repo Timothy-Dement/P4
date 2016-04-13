@@ -11,9 +11,15 @@ import javax.swing.*;
 
 public class LoginWindow extends JFrame {
 
-    private JPanel main_panel, welcome_panel, signin_panel, button_panel;
+    private JPanel main_panel,
+            welcome_panel,
+            signin_panel,
+            button_panel;
 
-    private JLabel welcome_label, message_label, username_label, password_label;
+    private JLabel welcome_label,
+            message_label,
+            username_label,
+            password_label;
 
     private JTextField username_field;
 
