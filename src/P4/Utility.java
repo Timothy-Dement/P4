@@ -27,11 +27,11 @@ public class Utility {
 
         if (cents < 10) {
 
-            display_string = "0.0" + cents_string;
+            display_string = "$0.0" + cents_string;
 
         } else if (cents < 100) {
 
-            display_string = "0." + cents_string;
+            display_string = "$0." + cents_string;
 
         } else {
 

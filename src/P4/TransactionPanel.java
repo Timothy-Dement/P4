@@ -29,8 +29,8 @@ public class TransactionPanel extends JPanel {
         this.inventory = inventory;
         
         main_panel = new JPanel();
-        main_panel.setLayout(new GridLayout(1,5,1,1));
-        main_panel.setBackground(Color.WHITE);
+        main_panel.setLayout(new GridLayout(1,5,10,10));
+        main_panel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Utility.DARK_SLATE_BLUE, 5), BorderFactory.createEmptyBorder(10,10,10,10)));
         
         category_panel_one = new CategoryPanel(this.transaction_name, this.inventory.get_category_array()[0]);
         category_panel_two = new CategoryPanel(this.transaction_name, this.inventory.get_category_array()[1]);
@@ -49,6 +49,17 @@ public class TransactionPanel extends JPanel {
         return this.main_panel;
     }
     
-    // JSPINNER STUFF
+    public int[][] get_transaction_spinner_values() {
+        
+        int[][] transaction_spinner_array = new int[5][5];
+        
+        transaction_spinner_array[0] = this.category_panel_one.get_category_spinner_values();
+        transaction_spinner_array[1] = this.category_panel_two.get_category_spinner_values();
+        transaction_spinner_array[2] = this.category_panel_three.get_category_spinner_values();
+        transaction_spinner_array[3] = this.category_panel_four.get_category_spinner_values();
+        transaction_spinner_array[4] = this.category_panel_five.get_category_spinner_values();
+        
+        return transaction_spinner_array;
+    }
     
 }

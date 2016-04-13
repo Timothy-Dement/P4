@@ -60,7 +60,7 @@ public class CategoryPanel extends JPanel {
         title_panel.add(category_label);
         
         item_list_panel = new JPanel();
-        item_list_panel.setLayout(new GridLayout(5,1,5,5));
+        item_list_panel.setLayout(new GridLayout(5,1,10,10));
         item_list_panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         item_list_panel.setBackground(Utility.LIGHT_STEEL_BLUE);
         
@@ -218,8 +218,16 @@ public class CategoryPanel extends JPanel {
         return this.main_panel;
     }
     
-    // NEED TO ADD "GET_SPINNER_VALUES" OR SOMETHING SIMILAR
-    
-    // NEED TO ADD "GET_SPINNERS" OR SOMETHING SIMILAR
-
+    public int[] get_category_spinner_values() {
+        
+        int[] category_spinner_array = new int[5];
+        
+        category_spinner_array[0] = (int) this.spinner_one.getValue();
+        category_spinner_array[1] = (int) this.spinner_two.getValue();
+        category_spinner_array[2] = (int) this.spinner_three.getValue();
+        category_spinner_array[3] = (int) this.spinner_four.getValue();
+        category_spinner_array[4] = (int) this.spinner_five.getValue();
+        
+        return category_spinner_array;
+    }
 }
