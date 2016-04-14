@@ -97,28 +97,28 @@ public class LoginWindow extends JFrame {
             if (Utility.global_employee_array[0].get_employee_username().equals(username_field.getText())
                     && Utility.global_employee_array[0].get_employee_password().equals(new String(password_field.getPassword()))) {
 
-                MainWindow main_window = new MainWindow(Utility.global_employee_array[0].get_employee_name());
+                new MainWindow(Utility.global_employee_array[0].get_employee_name());
 
                 dispose();
 
             } else if (Utility.global_employee_array[1].get_employee_username().equals(username_field.getText())
                     && Utility.global_employee_array[1].get_employee_password().equals(new String(password_field.getPassword()))) {
 
-                MainWindow main_window = new MainWindow(Utility.global_employee_array[1].get_employee_name());
+                new MainWindow(Utility.global_employee_array[1].get_employee_name());
 
                 dispose();
 
             } else if (Utility.global_employee_array[2].get_employee_username().equals(username_field.getText())
                     && Utility.global_employee_array[2].get_employee_password().equals(new String(password_field.getPassword()))) {
 
-                MainWindow main_window = new MainWindow(Utility.global_employee_array[2].get_employee_name());
+                new MainWindow(Utility.global_employee_array[2].get_employee_name());
 
                 dispose();
 
             } else if (Utility.global_employee_array[3].get_employee_username().equals(username_field.getText())
                     && Utility.global_employee_array[3].get_employee_password().equals(new String(password_field.getPassword()))) {
 
-                MainWindow main_window = new MainWindow(Utility.global_employee_array[3].get_employee_name());
+                new MainWindow(Utility.global_employee_array[3].get_employee_name());
 
                 dispose();
 

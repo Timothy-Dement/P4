@@ -220,14 +220,27 @@ public class CategoryPanel extends JPanel {
     
     public int[] get_category_spinner_values() {
         
-        int[] category_spinner_array = new int[5];
+        int[] category_spinner_values = new int[5];
         
-        category_spinner_array[0] = (int) this.spinner_one.getValue();
-        category_spinner_array[1] = (int) this.spinner_two.getValue();
-        category_spinner_array[2] = (int) this.spinner_three.getValue();
-        category_spinner_array[3] = (int) this.spinner_four.getValue();
-        category_spinner_array[4] = (int) this.spinner_five.getValue();
+        category_spinner_values[0] = (int) this.spinner_one.getValue();
+        category_spinner_values[1] = (int) this.spinner_two.getValue();
+        category_spinner_values[2] = (int) this.spinner_three.getValue();
+        category_spinner_values[3] = (int) this.spinner_four.getValue();
+        category_spinner_values[4] = (int) this.spinner_five.getValue();
         
-        return category_spinner_array;
+        return category_spinner_values;
+    }
+    
+    public JSpinner[] get_category_spinners() {
+        
+        JSpinner[] category_spinners = new JSpinner[5];
+        
+        category_spinners[0] = this.spinner_one;
+        category_spinners[1] = this.spinner_two;
+        category_spinners[2] = this.spinner_three;
+        category_spinners[3] = this.spinner_four;
+        category_spinners[4] = this.spinner_five;
+        
+        return category_spinners;
     }
 }
