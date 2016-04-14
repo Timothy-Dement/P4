@@ -85,8 +85,72 @@ public class LoginWindow extends JFrame {
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent we) {
+
+                JDialog confirm_close_dialog = new JDialog();
+
+                JPanel main_panel = new JPanel();
+                main_panel.setLayout(new BoxLayout(main_panel, BoxLayout.Y_AXIS));
+                main_panel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+                main_panel.setBackground(Color.WHITE);
+
+                JPanel message_panel = new JPanel();
+                message_panel.setLayout(new GridLayout(3, 1, 10, 10));
+                message_panel.setBackground(Color.WHITE);
+
+                JPanel button_panel = new JPanel();
+                button_panel.setLayout(new BoxLayout(button_panel, BoxLayout.X_AXIS));
+                button_panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0));
+                button_panel.setBackground(Color.WHITE);
+
+                JLabel warning_label = new JLabel("<html><font color = #ff0000><b>WARNING</font></b>");
+                JLabel quit_message_label = new JLabel("<html><font color = #ff0000>Are you sure you would like to quit?</font></b>");
+                JLabel save_message_label = new JLabel("<html><font color = #ff0000>The result of any transactions made during this session will be saved.</font></b>");
+
+                message_panel.add(warning_label);
+                message_panel.add(quit_message_label);
+                message_panel.add(save_message_label);
+
+                JButton quit_button = new JButton("QUIT");
+
+                quit_button.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        try {
+
+                            Utility.global_inventory.save_to_file();
+                            Utility.save_register_to_file();
+                            System.exit(0);
+
+                        } catch (IOException a) {
+                        }
+                    }
+                });
+
+                button_panel.add(Box.createHorizontalGlue());
+                button_panel.add(quit_button);
+
+                main_panel.add(message_panel);
+                main_panel.add(button_panel);
+
+                confirm_close_dialog.getContentPane().add(main_panel);
+
+                confirm_close_dialog.pack();
+                confirm_close_dialog.setResizable(false);
+                confirm_close_dialog.setLocationRelativeTo(null);
+                confirm_close_dialog.setModal(true);
+                confirm_close_dialog.setVisible(true);
+                confirm_close_dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+            }
+        });
     }
 
     public class SigninButtonHandler implements ActionListener {
@@ -133,7 +197,7 @@ public class LoginWindow extends JFrame {
 
                 JLabel warning_label = new JLabel("<html><font color = #ff0000><b>WARNING</font></b>");
 
-                JLabel failure_message_label = new JLabel("<html><font color = #ff0000>Please enter a valid username and password</font></b>");
+                JLabel failure_message_label = new JLabel("<html><font color = #ff0000>Please enter a valid username and password.</font></b>");
 
                 main_panel.add(warning_label);
                 main_panel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -148,7 +212,6 @@ public class LoginWindow extends JFrame {
                 failed_signin_dialog.setVisible(true);
                 failed_signin_dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             }
-
         }
     }
 }

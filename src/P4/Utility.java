@@ -70,7 +70,7 @@ public class Utility {
 
         BufferedWriter out = new BufferedWriter(new FileWriter(new File("funds.txt")));
 
-        out.write(global_funds_in_cents);
+        out.write(new Integer(global_funds_in_cents).toString());
 
         out.close();
     }

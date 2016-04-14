@@ -4,6 +4,7 @@
 // (P4) MainWindow.java
 package P4;
 
+import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -163,11 +164,71 @@ public class MainWindow extends JFrame {
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-    public JFrame get_frame() {
-        return this;
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent we) {
+
+                JDialog confirm_close_dialog = new JDialog();
+
+                JPanel main_panel = new JPanel();
+                main_panel.setLayout(new BoxLayout(main_panel, BoxLayout.Y_AXIS));
+                main_panel.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
+                main_panel.setBackground(Color.WHITE);
+
+                JPanel message_panel = new JPanel();
+                message_panel.setLayout(new GridLayout(3, 1, 10, 10));
+                message_panel.setBackground(Color.WHITE);
+
+                JPanel button_panel = new JPanel();
+                button_panel.setLayout(new BoxLayout(button_panel, BoxLayout.X_AXIS));
+                button_panel.setBorder(BorderFactory.createEmptyBorder(25, 0, 0, 0));
+                button_panel.setBackground(Color.WHITE);
+
+                JLabel warning_label = new JLabel("<html><font color = #ff0000><b>WARNING</font></b>");
+                JLabel quit_message_label = new JLabel("<html><font color = #ff0000>Are you sure you would like to quit?</font></b>");
+                JLabel save_message_label = new JLabel("<html><font color = #ff0000>The result of any transactions made during this session will be saved.</font></b>");
+
+                message_panel.add(warning_label);
+                message_panel.add(quit_message_label);
+                message_panel.add(save_message_label);
+
+                JButton quit_button = new JButton("QUIT");
+
+                quit_button.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+
+                        try {
+
+                            Utility.global_inventory.save_to_file();
+                            Utility.save_register_to_file();
+                            System.exit(0);
+
+                        } catch (IOException a) {
+                        }
+                    }
+                });
+
+                button_panel.add(Box.createHorizontalGlue());
+                button_panel.add(quit_button);
+
+                main_panel.add(message_panel);
+                main_panel.add(button_panel);
+
+                confirm_close_dialog.getContentPane().add(main_panel);
+
+                confirm_close_dialog.pack();
+                confirm_close_dialog.setResizable(false);
+                confirm_close_dialog.setLocationRelativeTo(null);
+                confirm_close_dialog.setModal(true);
+                confirm_close_dialog.setVisible(true);
+                confirm_close_dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+        });
     }
 
     public class SignoutButtonHandler implements ActionListener {
@@ -222,20 +283,26 @@ public class MainWindow extends JFrame {
         private JPanel main_panel,
                 title_panel,
                 item_panel,
-                cash_panel,
+                total_panel,
                 button_panel;
 
         private JButton cancel_sale_button,
                 confirm_sale_button;
-
-        JLabel title_label;
+        
+        private JLabel title_label,
+                subtotal_name_label,
+                tax_name_label,
+                total_name_label,
+                subtotal_amount_label,
+                tax_amount_label,
+                total_amount_label;
 
         private CancelSaleButtonHandler cancel_sale_button_handler;
 
         private ConfirmSaleButtonHandler confirm_sale_button_handler;
-        
+
         int[][] items_to_be_sold;
-        
+
         int number_of_distinct_items,
                 subtotal_in_cents,
                 tax_in_cents,
@@ -264,46 +331,68 @@ public class MainWindow extends JFrame {
                 title_panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                 title_panel.setBackground(Utility.DARK_SLATE_BLUE);
 
-                JLabel title_label = new JLabel("<html><font color = #ffffff><b>SALE ITEMS</b></font>");
+                title_label = new JLabel("<html><font color = #ffffff><b>SALE ITEMS</b></font>");
 
                 title_panel.add(title_label);
 
                 item_panel = new JPanel();
 
-                item_panel.setLayout(new GridLayout(number_of_distinct_items, 2, 10, 10));
-                item_panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+                item_panel.setLayout(new GridLayout(number_of_distinct_items, 2, 5, 5));
+                item_panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
                 for (int category_index = 0; category_index < 5; category_index++) {
                     for (int item_index = 0; item_index < 5; item_index++) {
                         if (items_to_be_sold[category_index][item_index] > 0) {
-                            
+
                             JLabel quantity_and_name_label = new JLabel("("
                                     + items_to_be_sold[category_index][item_index]
                                     + ") "
                                     + Utility.global_inventory.get_category_array()[category_index].get_item_array()[item_index].get_item_name());
-                            
+
                             JLabel price_label = new JLabel(Utility.global_inventory.get_category_array()[category_index].get_item_array()[item_index].get_item_price_for_display()
                                     + " (each)");
-                            
+
                             price_label.setHorizontalAlignment(JLabel.RIGHT);
-                            
+
                             item_panel.add(quantity_and_name_label);
                             item_panel.add(price_label);
-                            
+
                             subtotal_in_cents = items_to_be_sold[category_index][item_index]
                                     * Utility.global_inventory.get_category_array()[category_index].get_item_array()[item_index].get_item_price_in_cents();
                         }
                     }
                 }
 
-                //
-                //
-                //  BEGIN AGAIN HERE, NEED TO CALCULATE AND DISPLAY THE SUBTOTAL / TAX / TOTAL
-                //
-                //
+                tax_in_cents = (int) (subtotal_in_cents * 0.05);
                 
-                cash_panel = new JPanel();
+                total_in_cents = subtotal_in_cents + tax_in_cents;
+                
+                total_panel = new JPanel();
+                
+                total_panel.setBackground(Utility.LIGHT_STEEL_BLUE);
+                total_panel.setLayout(new GridLayout(3, 2, 5, 5));
+                total_panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                
+                subtotal_name_label = new JLabel("<html><b>SALE SUBTOTAL</b>");
+                tax_name_label = new JLabel("<html><b>SALE TAX</b>");
+                total_name_label = new JLabel("<html><b>SALE TOTAL</b>");
+                
+                subtotal_amount_label = new JLabel(Utility.convert_cents_for_display(subtotal_in_cents));
+                subtotal_amount_label.setHorizontalAlignment(JLabel.RIGHT);
+                
+                tax_amount_label = new JLabel(Utility.convert_cents_for_display(tax_in_cents));
+                tax_amount_label.setHorizontalAlignment(JLabel.RIGHT);
+                
+                total_amount_label = new JLabel(Utility.convert_cents_for_display(total_in_cents));
+                total_amount_label.setHorizontalAlignment(JLabel.RIGHT);
 
+                total_panel.add(subtotal_name_label);
+                total_panel.add(subtotal_amount_label);
+                total_panel.add(tax_name_label);
+                total_panel.add(tax_amount_label);
+                total_panel.add(total_name_label);
+                total_panel.add(total_amount_label);
+                
                 button_panel = new JPanel();
                 button_panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
                 button_panel.setBackground(Utility.DARK_SLATE_BLUE);
@@ -324,6 +413,7 @@ public class MainWindow extends JFrame {
 
                 main_panel.add(title_panel);
                 main_panel.add(item_panel);
+                main_panel.add(total_panel);
                 main_panel.add(button_panel);
 
                 review_sale_dialog.getContentPane().add(main_panel);
@@ -351,9 +441,11 @@ public class MainWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 review_sale_dialog.dispose();
+
+                Utility.global_funds_in_cents += total_in_cents;
                 
-                Utility.global_funds_in_cents += Utility.global_inventory.sell_items(items_to_be_sold);
-                
+                Utility.global_inventory.sell_items(items_to_be_sold);
+
                 new MainWindow(active_employee_name);
 
             }
