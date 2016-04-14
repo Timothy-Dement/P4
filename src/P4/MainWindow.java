@@ -326,6 +326,10 @@ public class MainWindow extends JFrame {
             
             number_of_distinct_items = 0;
             
+            subtotal_in_cents = 0;
+            tax_in_cents = 0;
+            total_in_cents = 0;
+            
             for (int category_index = 0; category_index < 5; category_index++) {
                 for (int item_index = 0; item_index < 5; item_index++) {
                     if (items_to_be_sold[category_index][item_index] > 0) {
@@ -503,6 +507,10 @@ public class MainWindow extends JFrame {
             
             number_of_distinct_items = 0;
             
+            subtotal_in_cents = 0;
+            tax_in_cents = 0;
+            total_in_cents = 0;
+            
             for (int category_index = 0; category_index < 5; category_index++) {
                 for (int item_index = 0; item_index < 5; item_index++) {
                     if (items_to_be_returned[category_index][item_index] > 0) {
@@ -642,9 +650,180 @@ public class MainWindow extends JFrame {
     
     public class ReviewOrderButtonHandler implements ActionListener {
         
+        private JDialog review_order_dialog;
+        
+        private JPanel main_panel,
+                title_panel,
+                item_panel,
+                total_panel,
+                button_panel;
+        
+        private JButton cancel_order_button,
+                confirm_order_button;
+        
+        private JLabel title_label,
+                subtotal_name_label,
+                tax_name_label,
+                total_name_label,
+                subtotal_amount_label,
+                tax_amount_label,
+                total_amount_label;
+        
+        private CancelOrderButtonHandler cancel_order_button_handler;
+        
+        private ConfirmOrderButtonHandler confirm_order_button_handler;
+        
+        private int[][] items_to_be_ordered;
+        
+        private int number_of_distinct_items,
+                subtotal_in_cents,
+                tax_in_cents,
+                total_in_cents;
+        
         @Override
         public void actionPerformed(ActionEvent e) {
             
+            items_to_be_ordered = order_panel.get_transaction_spinner_values();
+            
+            number_of_distinct_items = 0;
+            
+            subtotal_in_cents = 0;
+            tax_in_cents = 0;
+            total_in_cents = 0;
+            
+            for (int category_index = 0; category_index < 5; category_index++) {
+                for (int item_index = 0; item_index < 5; item_index++) {
+                    if (items_to_be_ordered[category_index][item_index] > 0) {
+                        number_of_distinct_items++;
+                    }
+                }
+            }
+            
+            if (number_of_distinct_items > 0) {
+                
+                review_order_dialog = new JDialog();
+                
+                title_panel = new JPanel();
+                title_panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+                title_panel.setBackground(Utility.DARK_SLATE_BLUE);
+                
+                title_label = new JLabel("<html><font color = #ffffff><b>ORDER ITEMS</b></font>");
+                
+                title_panel.add(title_label);
+                
+                item_panel = new JPanel();
+                
+                item_panel.setLayout(new GridLayout(number_of_distinct_items,2,5,5));
+                item_panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+                
+                for (int category_index = 0; category_index < 5; category_index++) {
+                    for (int item_index = 0; item_index < 5; item_index++) {
+                        if (items_to_be_ordered[category_index][item_index] > 0) {
+                            
+                            JLabel quantity_and_name_label = new JLabel("("
+                                    + items_to_be_ordered[category_index][item_index]
+                                    + ") "
+                                    + Utility.global_inventory.get_category_array()[category_index].get_item_array()[item_index].get_item_name());
+                            
+                            JLabel cost_label = new JLabel(Utility.global_inventory.get_category_array()[category_index].get_item_array()[item_index].get_item_cost_for_display()
+                                    + " (each)");
+                            
+                            cost_label.setHorizontalAlignment(JLabel.RIGHT);
+                            
+                            item_panel.add(quantity_and_name_label);
+                            item_panel.add(cost_label);
+                            
+                            subtotal_in_cents += items_to_be_ordered[category_index][item_index]
+                                    * Utility.global_inventory.get_category_array()[category_index].get_item_array()[item_index].get_item_cost_in_cents();
+                        }
+                    }
+                }
+                
+                tax_in_cents = (int) (subtotal_in_cents * 0.05);
+                
+                total_in_cents = subtotal_in_cents + tax_in_cents;
+                
+                total_panel = new JPanel();
+                total_panel.setLayout(new GridLayout(3, 2, 5, 5));
+                total_panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                total_panel.setBackground(Utility.LIGHT_STEEL_BLUE);
+                
+                subtotal_name_label = new JLabel("<html><b>ORDER SUBTOTAL</b>");
+                tax_name_label = new JLabel("<html><b>ORDER TAX</b>");
+                total_name_label = new JLabel("<html><b>ORDER TOTAL</b>");
+                
+                subtotal_amount_label = new JLabel(Utility.convert_cents_for_display(subtotal_in_cents));
+                subtotal_amount_label.setHorizontalAlignment(JLabel.RIGHT);
+                
+                tax_amount_label = new JLabel(Utility.convert_cents_for_display(tax_in_cents));
+                tax_amount_label.setHorizontalAlignment(JLabel.RIGHT);
+                
+                total_amount_label = new JLabel(Utility.convert_cents_for_display(total_in_cents));
+                total_amount_label.setHorizontalAlignment(JLabel.RIGHT);
+                
+                total_panel.add(subtotal_name_label);
+                total_panel.add(subtotal_amount_label);
+                total_panel.add(tax_name_label);
+                total_panel.add(tax_amount_label);
+                total_panel.add(total_name_label);
+                total_panel.add(total_amount_label);
+                
+                button_panel = new JPanel();
+                button_panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                button_panel.setBackground(Utility.DARK_SLATE_BLUE);
+                
+                cancel_order_button = new JButton("CANCEL ORDER");
+                cancel_order_button_handler = new CancelOrderButtonHandler();
+                cancel_order_button.addActionListener(cancel_order_button_handler);
+                
+                confirm_order_button = new JButton("CONFIRM ORDER");
+                confirm_order_button_handler = new ConfirmOrderButtonHandler();
+                confirm_order_button.addActionListener(confirm_order_button_handler);
+                
+                button_panel.add(cancel_order_button);
+                button_panel.add(confirm_order_button);
+                
+                main_panel = new JPanel();
+                main_panel.setLayout(new BoxLayout(main_panel, BoxLayout.Y_AXIS));
+                
+                main_panel.add(title_panel);
+                main_panel.add(item_panel);
+                main_panel.add(total_panel);
+                main_panel.add(button_panel);
+                
+                review_order_dialog.getContentPane().add(main_panel);
+                
+                review_order_dialog.pack();
+                review_order_dialog.setResizable(false);
+                review_order_dialog.setLocationRelativeTo(null);
+                review_order_dialog.setModal(true);
+                review_order_dialog.setVisible(true);
+                review_order_dialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            }
+        }
+        
+        public class CancelOrderButtonHandler implements ActionListener {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                review_order_dialog.dispose();
+            }
+        }
+        
+        public class ConfirmOrderButtonHandler implements ActionListener {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                dispose();
+                review_order_dialog.dispose();
+                
+                Utility.global_funds_in_cents -= total_in_cents;
+                
+                Utility.global_inventory.order_items(items_to_be_ordered);
+                
+                new MainWindow(active_employee_name);
+            }
         }
     }
 }
