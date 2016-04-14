@@ -146,6 +146,7 @@ public class LoginWindow extends JFrame {
 
                 button_panel.add(Box.createHorizontalGlue());
                 button_panel.add(quit_button);
+                button_panel.add(Box.createRigidArea(new Dimension(10,0)));
                 button_panel.add(save_and_quit_button);
 
                 main_panel.add(message_panel);
