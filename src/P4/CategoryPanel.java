@@ -89,34 +89,34 @@ public class CategoryPanel extends JPanel {
         item_panel_five.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.WHITE, 1), BorderFactory.createEmptyBorder(10,10,10,10)));
         item_panel_five.setBackground(Utility.LIGHT_STEEL_BLUE);
         
-        name_label_one = new JLabel("<html><font color = #ffffff><b>N </b></font>" + this.category.get_item_array()[0].get_item_name());
-        name_label_two = new JLabel("<html><font color = #ffffff><b>N </b></font>" + this.category.get_item_array()[1].get_item_name());
-        name_label_three = new JLabel("<html><font color = #ffffff><b>N </b></font>" + this.category.get_item_array()[2].get_item_name());
-        name_label_four = new JLabel("<html><font color = #ffffff><b>N </b></font>" + this.category.get_item_array()[3].get_item_name());
-        name_label_five = new JLabel("<html><font color = #ffffff><b>N </b></font>" + this.category.get_item_array()[4].get_item_name());
+        name_label_one = new JLabel("<html><font color = #ffffff><b>NAME </b></font>" + this.category.get_item_array()[0].get_item_name());
+        name_label_two = new JLabel("<html><font color = #ffffff><b>NAME </b></font>" + this.category.get_item_array()[1].get_item_name());
+        name_label_three = new JLabel("<html><font color = #ffffff><b>NAME </b></font>" + this.category.get_item_array()[2].get_item_name());
+        name_label_four = new JLabel("<html><font color = #ffffff><b>NAME </b></font>" + this.category.get_item_array()[3].get_item_name());
+        name_label_five = new JLabel("<html><font color = #ffffff><b>NAME </b></font>" + this.category.get_item_array()[4].get_item_name());
         
         if (transaction_name.equals("ORDER")) {
             
-            price_cost_label_one = new JLabel("<html><font color = #ffffff><b>C </b></font>" + this.category.get_item_array()[0].get_item_cost_for_display());
-            price_cost_label_two = new JLabel("<html><font color = #ffffff><b>C </b></font>" + this.category.get_item_array()[1].get_item_cost_for_display());
-            price_cost_label_three = new JLabel("<html><font color = #ffffff><b>C </b></font>" + this.category.get_item_array()[2].get_item_cost_for_display());
-            price_cost_label_four = new JLabel("<html><font color = #ffffff><b>C </b></font>" + this.category.get_item_array()[3].get_item_cost_for_display());
-            price_cost_label_five = new JLabel("<html><font color = #ffffff><b>C </b></font>" + this.category.get_item_array()[4].get_item_cost_for_display());
+            price_cost_label_one = new JLabel("<html><font color = #ffffff><b>COST </b></font>" + this.category.get_item_array()[0].get_item_cost_for_display());
+            price_cost_label_two = new JLabel("<html><font color = #ffffff><b>COST </b></font>" + this.category.get_item_array()[1].get_item_cost_for_display());
+            price_cost_label_three = new JLabel("<html><font color = #ffffff><b>COST </b></font>" + this.category.get_item_array()[2].get_item_cost_for_display());
+            price_cost_label_four = new JLabel("<html><font color = #ffffff><b>COST </b></font>" + this.category.get_item_array()[3].get_item_cost_for_display());
+            price_cost_label_five = new JLabel("<html><font color = #ffffff><b>COST </b></font>" + this.category.get_item_array()[4].get_item_cost_for_display());
             
         } else {
             
-            price_cost_label_one = new JLabel("<html><font color = #ffffff><b>P </b></font>" + this.category.get_item_array()[0].get_item_price_for_display());
-            price_cost_label_two = new JLabel("<html><font color = #ffffff><b>P </b></font>" + this.category.get_item_array()[1].get_item_price_for_display());
-            price_cost_label_three = new JLabel("<html><font color = #ffffff><b>P </b></font>" + this.category.get_item_array()[2].get_item_price_for_display());
-            price_cost_label_four = new JLabel("<html><font color = #ffffff><b>P </b></font>" + this.category.get_item_array()[3].get_item_price_for_display());
-            price_cost_label_five = new JLabel("<html><font color = #ffffff><b>P </b></font>" + this.category.get_item_array()[4].get_item_price_for_display());
+            price_cost_label_one = new JLabel("<html><font color = #ffffff><b>PRICE </b></font>" + this.category.get_item_array()[0].get_item_price_for_display());
+            price_cost_label_two = new JLabel("<html><font color = #ffffff><b>PRICE </b></font>" + this.category.get_item_array()[1].get_item_price_for_display());
+            price_cost_label_three = new JLabel("<html><font color = #ffffff><b>PRICE </b></font>" + this.category.get_item_array()[2].get_item_price_for_display());
+            price_cost_label_four = new JLabel("<html><font color = #ffffff><b>PRICE </b></font>" + this.category.get_item_array()[3].get_item_price_for_display());
+            price_cost_label_five = new JLabel("<html><font color = #ffffff><b>PRICE </b></font>" + this.category.get_item_array()[4].get_item_price_for_display());
         }
         
-        quantity_label_one = new JLabel("<html><font color = #ffffff><b>Q </b></font>" + this.category.get_item_array()[0].get_item_quantity());
-        quantity_label_two = new JLabel("<html><font color = #ffffff><b>Q </b></font>" + this.category.get_item_array()[1].get_item_quantity());
-        quantity_label_three = new JLabel("<html><font color = #ffffff><b>Q </b></font>" + this.category.get_item_array()[2].get_item_quantity());
-        quantity_label_four = new JLabel("<html><font color = #ffffff><b>Q </b></font>" + this.category.get_item_array()[3].get_item_quantity());
-        quantity_label_five = new JLabel("<html><font color = #ffffff><b>Q </b></font>" + this.category.get_item_array()[4].get_item_quantity());
+        quantity_label_one = new JLabel("<html><font color = #ffffff><b>STOCK </b></font>" + this.category.get_item_array()[0].get_item_quantity());
+        quantity_label_two = new JLabel("<html><font color = #ffffff><b>STOCK </b></font>" + this.category.get_item_array()[1].get_item_quantity());
+        quantity_label_three = new JLabel("<html><font color = #ffffff><b>STOCK </b></font>" + this.category.get_item_array()[2].get_item_quantity());
+        quantity_label_four = new JLabel("<html><font color = #ffffff><b>STOCK </b></font>" + this.category.get_item_array()[3].get_item_quantity());
+        quantity_label_five = new JLabel("<html><font color = #ffffff><b>STOCK </b></font>" + this.category.get_item_array()[4].get_item_quantity());
         
         if (transaction_name.equals("SALE")) {
             
