@@ -109,16 +109,26 @@ public class LoginWindow extends JFrame {
                 button_panel.setBackground(Color.WHITE);
 
                 JLabel warning_label = new JLabel("<html><font color = #ff0000><b>WARNING</font></b>");
-                JLabel quit_message_label = new JLabel("<html><font color = #ff0000>Are you sure you would like to quit?</font></b>");
-                JLabel save_message_label = new JLabel("<html><font color = #ff0000>The result of any transactions made during this session will be saved.</font></b>");
+                JLabel quit_message_label = new JLabel("<html><font color = #ff0000>If you quit without saving, the results of any transactions completed during this session will be lost.</font></b>");
+                JLabel save_message_label = new JLabel("<html><font color = #ff0000>Would you like to save before quitting?</font></b>");
 
                 message_panel.add(warning_label);
                 message_panel.add(quit_message_label);
                 message_panel.add(save_message_label);
 
                 JButton quit_button = new JButton("QUIT");
+                JButton save_and_quit_button = new JButton("SAVE AND QUIT");
 
-                quit_button.addActionListener(new ActionListener() {
+                quit_button.addActionListener(new ActionListener(){
+                    
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        
+                        System.exit(0);
+                    }
+                });
+                
+                save_and_quit_button.addActionListener(new ActionListener() {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -136,6 +146,7 @@ public class LoginWindow extends JFrame {
 
                 button_panel.add(Box.createHorizontalGlue());
                 button_panel.add(quit_button);
+                button_panel.add(save_and_quit_button);
 
                 main_panel.add(message_panel);
                 main_panel.add(button_panel);
